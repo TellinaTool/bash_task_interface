@@ -25,7 +25,7 @@ export STUDY_BACKUP="$WORKING_DIR/class-website-template-master"
 
 export PATH=$WORKING_DIR/bin:$PATH
 
-alias r="cd $WORKING_DIR && reset"
+alias r="cd $WORKING_DIR && reset && cd $STUDY_DIR"
 alias p="prompt"
 
 reset
