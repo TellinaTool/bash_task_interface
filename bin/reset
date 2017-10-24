@@ -1,0 +1,7 @@
+rm -rf $STUDY_DIR
+mkdir $STUDY_DIR
+
+for i in {1..10}
+do
+    cp -r "$STUDY_BACKUP" "$WORKING_DIR/$STUDY_DIR/task_$i"
+done
