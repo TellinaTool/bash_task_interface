@@ -1,6 +1,6 @@
 # bash_task_interface
 
-Clone the project to `~/workspace/tellina-user-study-system` on your machine.
+Clone the project to `~/workspace/bash_task_interface` on your machine.
 
 Run `source init.sh` which will set up the study directories and install bash-preexec (https://github.com/rcaloras/bash-preexec).
 

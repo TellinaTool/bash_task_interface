@@ -19,9 +19,9 @@ precmd() {
     fi
 }
 
-export WORKING_DIR="$HOME/workspace/tellina-user-study-system"
+export WORKING_DIR="$HOME/workspace/bash_task_interface"
 export STUDY_DIR="study"
-export STUDY_BACKUP="$HOME/workspace/tellina-user-study-system/class-website-template-master"
+export STUDY_BACKUP="$WORKING_DIR/class-website-template-master"
 
 export PATH=$WORKING_DIR/bin:$PATH
 
