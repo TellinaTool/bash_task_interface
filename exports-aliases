@@ -1,7 +1,7 @@
 export REPO_DIR="$HOME/bash_task_interface"
 export STUDY_DIR="$HOME/study"
 
-# export PATH=$REPO_DIR/bin:$PATH
+export PATH=$REPO_DIR/bin:$PATH
 
-alias p="$REPO_DIR/bin/prompt"
-alias r="$REPO_DIR/bin/createtaskdirs"
+alias p="prompt"
+alias r="createtaskdirs"
