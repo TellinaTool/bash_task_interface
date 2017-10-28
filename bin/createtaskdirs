@@ -1,0 +1,1 @@
+tar -xvf $REPO_DIR/directory-for-tasks.tar.xz -C $STUDY_DIR

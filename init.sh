@@ -19,13 +19,4 @@ precmd() {
     fi
 }
 
-export WORKING_DIR="$HOME/workspace/bash_task_interface"
-export STUDY_DIR="study"
-export STUDY_BACKUP="$WORKING_DIR/class-website-template-master"
-
-export PATH=$WORKING_DIR/bin:$PATH
-
-alias r="cd $WORKING_DIR && reset && cd $STUDY_DIR"
-alias p="prompt"
-
 reset
