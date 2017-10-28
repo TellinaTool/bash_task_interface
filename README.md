@@ -1,10 +1,8 @@
 # bash_task_interface
 
-Clone the project to `~/workspace/bash_task_interface` on your machine.
+Clone the project to `~/bash_task_interface` on your machine.
 
-Run `source init.sh` which will set up the study directories and install bash-preexec (https://github.com/rcaloras/bash-preexec).
-
-Change to a task directory: `cd study/task_1`.
+Run `source setup.sh` which will set up the study directories then `init.sh` and install bash-preexec (https://github.com/rcaloras/bash-preexec).
 
 Print the task prompt with `p`.
 
