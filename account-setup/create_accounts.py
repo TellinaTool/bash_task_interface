@@ -17,3 +17,10 @@ for u,p in zip(usernames, passwords):
 	p1 = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
 	p2 = subprocess.Popen(["chpasswd"], stdin=p1.stdout)
 
+	# set default shell to bash
+	cmd = "usermod -s /bin/bash %s" % u
+	print subprocess.check_output(cmd.split())
+
+	# prevent other users from accessing home
+	cmd = "chmod 0700 /home/%s" % u
+	print subprocess.check_output(cmd.split())
