@@ -1,7 +1,4 @@
-rm -rf $STUDY_DIR
-mkdir $STUDY_DIR
+rm -rf $TASK_DIR
 
-for i in {1..10}
-do
-    cp -r "$STUDY_BACKUP" "$WORKING_DIR/$STUDY_DIR/task_$i"
-done
+mkdir $TASK_DIR
+tar -xvzf $REPO_DIR/task_dir.tgz -C $TASK_DIR

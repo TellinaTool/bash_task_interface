@@ -1,0 +1,8 @@
+TASK_NUM=`cat $CURR_TASK`
+
+if [[ `pwd` == "$TASK_DIR"* ]]; then
+    echo "You are working on task $TASK_NUM:"
+    $REPO_DIR/scripts/get_task_description.py "$REPO_DIR/tasks/task$TASK_NUM.json"
+else
+    echo "You are not in a task directory."
+fi

@@ -1,8 +1,0 @@
-TASK_NUM=${PWD##*/}
-
-if [[ "$TASK_NUM" == task_* ]]; then
-    echo "You are working on $TASK_NUM."
-    grep "$TASK_NUM:" "$WORKING_DIR/tasks.txt"
-else
-    echo "You are not in a task directory."
-fi
