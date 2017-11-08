@@ -16,9 +16,9 @@ source ~/.bash-preexec.sh
 preexec() {
     TASK_NUM=`cat $CURR_TASK`
     PREV_COMMAND=$1
-    $REPO_DIR/scripts/verify_task_$TASK_NUM.py $PREV_COMMAND
+    $REPO_DIR/scripts/verify_task.py $TASK_NUM $PREV_COMMAND
   }
 
 precmd() {
-    :
+    task
   }
