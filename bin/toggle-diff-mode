@@ -1,0 +1,6 @@
+if [ $DIFF_MODE = 0 ] ; then
+	export DIFF_MODE=1
+else
+	export DIFF_MODE=0 
+fi 
+
