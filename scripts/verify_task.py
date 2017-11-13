@@ -43,7 +43,11 @@ def normalize_output(output_path, norm_out_path):
     output = open(output_path)
     lines = sorted(output.read().splitlines())
     for line in lines:
-        print(line.lstrip('./'), file=norm_out)
+        if line == './' or line == '.':
+            p_line = line
+        else:
+            p_line = line.lstrip('./')
+        print(p_line, file=norm_out)
     norm_out.close()
     output.close()
 

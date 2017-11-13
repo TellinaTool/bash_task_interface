@@ -1,0 +1,2 @@
+TASK_NUM=`cat $CURR_TASK`
+meld $REPO_DIR/user_output/norm_out $REPO_DIR/verify_out/task_$TASK_NUM &
