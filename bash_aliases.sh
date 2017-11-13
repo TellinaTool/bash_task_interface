@@ -18,16 +18,16 @@ alias toggle="source toggle-diff-mode"
 curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh
 source ~/.bash-preexec.sh
 preexec() {
-	# TODO this needs to be disabled for commands like vi since it hangs
-	if [ $DIFF_MODE = 1 ] ; then
-    		TASK_NUM=`cat $CURR_TASK`
-    		PREV_COMMAND=$1
-    		$REPO_DIR/scripts/verify_task.py $TASK_NUM $PREV_COMMAND
-	fi
+    # TODO this needs to be disabled for commands like vi since it hangs
+    if [ $DIFF_MODE = 1 ] ; then
+        TASK_NUM=`cat $CURR_TASK`
+        PREV_COMMAND=$1
+        $REPO_DIR/scripts/verify_task.py $TASK_NUM $PREV_COMMAND
+    fi
 }
 
 precmd() {
-	if [ $DIFF_MODE = 1 ] ; then
-		task
-	fi
+    if [ $DIFF_MODE = 1 ] ; then
+        task
+    fi
 }
