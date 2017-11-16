@@ -53,10 +53,10 @@ def normalize_output(output_path, norm_out_path):
 
 
 def verify(norm_out_path, task_num):
-    task_verify_path = os.environ['REPO_DIR'] + '/verify_out/task_' + str(task_num)
+    task_verify_path = os.environ['REPO_DIR'] + '/verify_out/task' + str(task_num) + '.out'
 
     # special verification for task 2
-    if task_num == 2:
+    if int(task_num) == 2:
         files_in_tar = set()
         try:
             tar = tarfile.open(os.path.join(os.environ['TASK_DIR'], 'html.tar'))
