@@ -28,6 +28,17 @@ precmd() {
     if [ "$PREV_CMD" != "diff" ] && [ "$PREV_CMD" != "reset" ] && [ "$PREV_CMD" != "task" ]; then
         TASK_NUM=`cat $CURR_TASK`
         $REPO_DIR/scripts/verify_task.py $TASK_NUM $PREV_CMD
+        EXIT=$?
+        if [ "$EXIT" = 1 ]; then
+            reset
+            echo "-----------------------"
+            echo "You have passed task $TASK_NUM!"
+            # close the current meld window
+            pkill meld
+            if [ "$TASK_NUM" = 22 ]; then
+                echo "Congratulations! You have finished the study. Go ahead and log out."
+            fi
+        fi
     fi
     if [ $DIFF_MODE = 1 ] ; then
         task

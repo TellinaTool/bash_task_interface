@@ -27,19 +27,23 @@ def main():
 
         norm_out_path = os.environ['REPO_DIR'] + '/user_output/norm_out'
 
-        normalize_output(output_path, norm_out_path)
+        normalize_output(output_path, norm_out_path, task_num)
 
         if verify(norm_out_path, task_num):
-            print('PASSED AYYYY')
             to_next_task(task_num)
+            sys.exit(1)
         else:
-            pass
-    except subprocess.CalledProcessError:
-        pass
+            sys.exit(0)
+    except (OSError, subprocess.CalledProcessError):
+        sys.exit(0)
 
 
-def normalize_output(output_path, norm_out_path):
+def normalize_output(output_path, norm_out_path, task_num):
     norm_out = open(norm_out_path, 'w')
+    if int(task_num) in FILESYSTEM_TASKS:
+        print('# Showing diff of task filesystem.', file=norm_out)
+    else:
+        print('# Showing diff of stdout.', file=norm_out)
     output = open(output_path)
     lines = sorted(output.read().splitlines())
     for line in lines:
@@ -62,12 +66,20 @@ def verify(norm_out_path, task_num):
             tar = tarfile.open(os.path.join(os.environ['TASK_DIR'], 'html.tar'))
             for member in tar.getmembers():
                 files_in_tar.add(os.path.basename(member.name))
+            if files_in_tar != {'index.html', 'home.html', 'labs.html',
+                                'lesson.html', 'menu.html', 'navigation.html'}:
+                print('-------------------------------------------')
+                print('html.tar does not contain the correct files')
+                print('contains: ' + str(files_in_tar))
+                print('should be: ' + str({'index.html', 'home.html', 'labs.html', 'lesson.html', 'menu.html', 'navigation.html'}))
+                return False
         except tarfile.ReadError:
             # valid tar file does not exist on the target path
-            pass
-        if files_in_tar != {'index.html', 'home.html', 'labs.html',
-                            'lesson.html', 'menu.html', 'navigation.html'}:
+            print('--------------------------------')
+            print('html.tar is not a valid tar file')
             return False
+        except IOError:
+            pass
 
     # compare normalized output file and task verification file
     return filecmp.cmp(norm_out_path, task_verify_path)
