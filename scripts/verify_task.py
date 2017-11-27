@@ -18,7 +18,8 @@ import filecmp
 import tarfile
 
 FILESYSTEM_TASKS = {2, 3, 4, 5, 6, 11, 12, 15, 20, 22}
-TASK_TIME_LIMIT = 0.1
+# Task time limit in minutes.
+TASK_TIME_LIMIT = 5.0
 
 
 def main():

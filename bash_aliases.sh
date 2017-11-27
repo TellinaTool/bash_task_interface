@@ -7,6 +7,8 @@ export TASK_DIR="$HOME/task"
 export CURR_TASK="$REPO_DIR/task_progress/curr_task"
 # prepend task_interface scripts to the user's path
 export PATH=$REPO_DIR/bin:$PATH
+# log file
+export LOGFILE="$REPO_DIR/log"
 # allows the diff and task number outputs to be turned off
 export DIFF_MODE=1
 # timestamps will be stored for the bash history
@@ -55,6 +57,7 @@ precmd() {
                 echo "Congratulations! You have finished the study. Go ahead and log out."
             fi
         fi
+        echo $TASK_NUM,$PREV_CMD,$SECONDS,$EXIT >> $LOGFILE
     fi
     if [ $DIFF_MODE = 1 ] ; then
         task
