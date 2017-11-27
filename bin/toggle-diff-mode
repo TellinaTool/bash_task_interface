@@ -1,3 +1,5 @@
+# Toggles whether the task prompt is printed after each command.
+
 if [ $DIFF_MODE = 0 ] ; then
 	export DIFF_MODE=1
 else

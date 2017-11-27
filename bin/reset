@@ -1,3 +1,5 @@
+# Resets the task directory.
+
 rm -rf $TASK_DIR
 
 mkdir $TASK_DIR
