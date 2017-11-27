@@ -1,3 +1,4 @@
+# Showing diff of stdout.
 .
 README.md
 backup
@@ -65,7 +66,6 @@ css/fonts/glyphiconshalflings-regular.otf
 css/fonts/glyphiconshalflings-regular.svg
 css/fonts/glyphiconshalflings-regular.ttf
 css/fonts/glyphiconshalflings-regular.woff
-html.tar
 index.html
 js
 js/app.js
