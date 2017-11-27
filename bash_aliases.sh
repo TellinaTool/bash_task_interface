@@ -9,6 +9,8 @@ export CURR_TASK="$REPO_DIR/task_progress/curr_task"
 export PATH=$REPO_DIR/bin:$PATH
 # allows the diff and task number outputs to be turned off
 export DIFF_MODE=1
+# timestamps will be stored for the bash history
+export HISTTIMEFORMAT="%m/%d/%y %T "
 
 alias reset="cd $HOME && reset && cd $TASK_DIR"
 alias toggle="source toggle-diff-mode"
