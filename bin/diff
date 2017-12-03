@@ -7,5 +7,5 @@ if [ -e $REPO_DIR/verify_out/select_targets/task$TASK_NUM.select.out ]
 then
     meld $REPO_DIR/user_output/norm_stdout $REPO_DIR/verify_out/select_targets/task$TASK_NUM.select.out &
 else
-    meld $REPO_DIR/user_output/norm_filesystem $REPO_DIR/verify_out/fs_status/task$TASK_NUM.select.out &
+    meld $REPO_DIR/user_output/norm_filesystem $REPO_DIR/verify_out/fs_status/task$TASK_NUM.fs.out &
 fi
