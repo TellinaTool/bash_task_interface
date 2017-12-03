@@ -13,6 +13,8 @@ export LOGFILE="$REPO_DIR/log"
 export DIFF_MODE=1
 # timestamps will be stored for the bash history
 export HISTTIMEFORMAT="%m/%d/%y %T "
+# the current treatment condition
+export TREATMENT="T"
 
 alias reset="cd $HOME && reset && cd $TASK_DIR"
 alias toggle="source toggle-diff-mode"
@@ -38,13 +40,18 @@ precmd() {
         EXIT=$?
         # if the user passes the task
         if [ "$EXIT" = 1 ]; then
-            reset
+            abandon
             echo "-----------------------"
             echo "You have passed task $TASK_NUM!"
             # close the current meld window
             pkill meld
-            if [ "$TASK_NUM" = 22 ]; then
+            if [ "$TASK_NUM" -ge 22 ]; then
                 echo "Congratulations! You have finished the study. Go ahead and log out."
+            fi
+            if [ "$TASK_NUM" = 11 ]; then
+                echo "You are halfway through the study!"
+                echo "If you were previously using Tellina to complete the tasks, please stop using Tellina for the remaining tasks."
+                echo "If you have not been using Tellina to complete the tasks, please open Tellina in your web browser <INSERT LINK>."
             fi
         # else, if the user has gone over time for this task
         elif [ "$EXIT" = 2 ]; then
@@ -53,13 +60,36 @@ precmd() {
             echo "You have run out of time on task $TASK_NUM."
             # close the current meld window
             pkill meld
-            if [ "$TASK_NUM" = 22 ]; then
+            if [ "$TASK_NUM" -ge 22 ]; then
                 echo "Congratulations! You have finished the study. Go ahead and log out."
             fi
+            if [ "$TASK_NUM" = 11 ]; then
+                echo "You are halfway through the study!"
+                echo "If you were previously using Tellina to complete the tasks, please stop using Tellina for the remaining tasks."
+                echo "If you have not been using Tellina to complete the tasks, please open Tellina in your web browser <INSERT LINK>."
+            fi
         fi
-        echo $TASK_NUM,$PREV_CMD,$SECONDS,$EXIT >> $LOGFILE
+        # if the previous command was an abandon, check the task num
+        if [ "$PREV_CMD" = "abandon" ]; then
+            pkill meld
+            if [ "$TASK_NUM" -ge 22 ]; then
+                echo "Congratulations! You have finished the study. Go ahead and log out."
+            fi
+            if [ "$TASK_NUM" = 11 ]; then
+                echo "-----------------------------------"
+                echo "You are halfway through the study!"
+                echo "If you were previously using Tellina to complete the tasks, please stop using Tellina for the remaining tasks."
+                echo "If you have not been using Tellina to complete the tasks, please open Tellina in your web browser <INSERT LINK>."
+            fi
+        fi
+        echo $TASK_NUM,$TREATMENT,$PREV_CMD,$SECONDS,$EXIT >> $LOGFILE
     fi
     if [ $DIFF_MODE = 1 ] ; then
         task
     fi
 }
+
+echo "Welcome to the user study!"
+echo "At any point, run \"helpme\" to see a list of commands available to you during the study."
+echo "For the first half of the study, you will be allowed to use any internet resource to solve the tasks."
+echo "Additionally, feel free to use Tellina <INSERT LINK>."

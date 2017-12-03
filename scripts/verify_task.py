@@ -17,7 +17,7 @@ import subprocess
 import filecmp
 import tarfile
 
-FILESYSTEM_TASKS = {2, 3, 4, 5, 6, 11, 12, 15, 20, 22}
+FILESYSTEM_TASKS = {2, 3, 4, 5, 6, 11, 12, 15, 17, 20, 22}
 # Task time limit in minutes.
 TASK_TIME_LIMIT = 5.0
 
@@ -30,34 +30,47 @@ def main():
     # the current command
     command = ' '.join(sys.argv[3:])
     try:
-        # the file where we will save the raw output of the command
-        output_path = os.environ['REPO_DIR'] + '/user_output/out'
-        output_file = open(output_path, 'w')
+        filesystem_path = os.environ['REPO_DIR'] + '/user_output/filesystem'
+        filesystem_file = open(filesystem_path, 'w')
+
+        stdout_path = os.environ['REPO_DIR'] + '/user_output/stdout'
+        stdout_file = open(stdout_path, 'w')
 
         devnull = open(os.devnull, 'wb')
-        if int(task_num) in FILESYSTEM_TASKS:
-            # if the task is a filesytem task, get the files in the current filesystem
-            ret = subprocess.call('find .', shell=True, stderr=devnull, stdout=output_file)
-        else:
-            # otherwise, get the stdout of the command
-            ret = subprocess.call(command, shell=True, stderr=devnull, stdout=output_file)
+
+        # get the files in the current filesystem
+        filesystem = subprocess.call('find .', shell=True, stderr=devnull, stdout=filesystem_file)
+        # get the stdout of the command
+        stdout = subprocess.call(command, shell=True, stderr=devnull, stdout=stdout_file)
 
         # close output file for normalization
-        output_file.close()
+        filesystem_file.close()
+        stdout_file.close()
 
-        norm_out_path = os.environ['REPO_DIR'] + '/user_output/norm_out'
-        normalize_output(output_path, norm_out_path, task_num)
+        norm_filesystem_path = os.environ['REPO_DIR'] + '/user_output/norm_filesystem'
+        normalize_output(filesystem_path, norm_filesystem_path, task_num, True)
+
+        norm_stdout_path = os.environ['REPO_DIR'] + '/user_output/norm_stdout'
+        normalize_output(stdout_path, norm_stdout_path, task_num, False)
+
+        verify_fs = verify(norm_filesystem_path, task_num, True)
+        if int(task_num) not in FILESYSTEM_TASKS:
+            verify_stdout = verify(norm_stdout_path, task_num, False)
+        else:
+            verify_stdout = False
 
         # if the task was passed
-        if verify(norm_out_path, task_num):
-            to_next_task(task_num)
-            reset_task_time()
+        if (int(task_num) in FILESYSTEM_TASKS and verify_fs) or verify_stdout:
+            #to_next_task(task_num)
             # return exit code 1
             sys.exit(1)
         else:
             # return exit code 0 if the current task has not been passed
             # but there is still time on the task
             if task_has_time_left(seconds):
+                if int(task_num) not in FILESYSTEM_TASKS and not verify_fs:
+                    print('-----------------------------------------------------------------------------------------------')
+                    print('WARNING: you have either changed directories or have modified the task filesystem; please reset')
                 sys.exit(0)
             else:
                 # if there is no time left, return 2
@@ -71,9 +84,9 @@ def task_has_time_left(seconds):
     return mins_elapsed < TASK_TIME_LIMIT
 
 
-def normalize_output(output_path, norm_out_path, task_num):
+def normalize_output(output_path, norm_out_path, task_num, filesystem):
     norm_out = open(norm_out_path, 'w')
-    if int(task_num) in FILESYSTEM_TASKS:
+    if filesystem:
         print('# Showing diff of task filesystem.', file=norm_out)
     else:
         print('# Showing diff of stdout.', file=norm_out)
@@ -89,8 +102,11 @@ def normalize_output(output_path, norm_out_path, task_num):
     output.close()
 
 
-def verify(norm_out_path, task_num):
-    task_verify_path = os.environ['REPO_DIR'] + '/verify_out/task' + str(task_num) + '.out'
+def verify(norm_out_path, task_num, filesystem_verify):
+    if filesystem_verify:
+        task_verify_path = os.environ['REPO_DIR'] + '/verify_out/fs_status/task' + str(task_num) + '.fs.out'
+    else:
+        task_verify_path = os.environ['REPO_DIR'] + '/verify_out/select_targets/task' + str(task_num) + '.select.out'
 
     # special verification for task 2
     if int(task_num) == 2:

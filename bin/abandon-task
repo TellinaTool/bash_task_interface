@@ -1,6 +1,7 @@
 # This script "abandons" the current task.
 # Specifically, it increments the task num stored in the file at CURR_TASK,
 # resets the task directory, and reset the SECONDS variable to 0.
+# This can be used as a general script to increment the task properly.
 
 echo -n "$((`cat $CURR_TASK` + 1))" > $CURR_TASK
 reset
