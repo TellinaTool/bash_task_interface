@@ -1,0 +1,14 @@
+1. From gui deploy an image with default settings
+2. apt-get update && apt-get upgrade
+	2.5 this can hang on security updates
+		* sudo vim /etc/gai.conf
+		* :54
+		* uncomment precedence ::ffff:0:0/96  100
+3. setup hostname
+	* echo "[a hostname]" > /etc/hostname
+	* hostname -F /etc/hostname
+	* verfiy with hostname command
+4. setup timezones
+	* timedatectl set-timezone America/Los_Angeles
+	* verify with date command
+5. Change default shell to bash
