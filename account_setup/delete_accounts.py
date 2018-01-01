@@ -1,3 +1,5 @@
+""" Delete all accounts whose usernames are listed in file usernames.txt """
+
 import subprocess
 
 # get usernames
