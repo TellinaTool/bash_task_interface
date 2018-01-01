@@ -1,20 +1,21 @@
-# exporting variables
+## Variables
 # the directory of the task_interface repo
 export REPO_DIR="$HOME/bash_task_interface"
-# the actual study directory which is separate from the task_interface repo
+# the study directory where the user does work
 export TASK_DIR="$HOME/task"
 # file that tracks the current task
 export CURR_TASK="$REPO_DIR/task_progress/curr_task"
-# prepend task_interface scripts to the user's path
-export PATH=$REPO_DIR/bin:$PATH
 # log file
 export LOGFILE="$REPO_DIR/log"
-# allows the diff and task number outputs to be turned off
+# if nonzero, the shell outputs the diff and task number after each command
 export DIFF_MODE=1
-# timestamps will be stored for the bash history
+# format for timestamps in the bash history
 export HISTTIMEFORMAT="%m/%d/%y %T "
 # the current treatment condition
 export TREATMENT="T"
+
+# prepend task_interface scripts to the user's path
+export PATH=$REPO_DIR/bin:$PATH
 
 alias reset="cd $HOME && reset && cd $TASK_DIR"
 alias toggle="source toggle-diff-mode"
