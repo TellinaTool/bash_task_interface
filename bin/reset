@@ -1,4 +1,6 @@
-# Resets the task directory.
+# Resets the task directory to its initial state.
+# A user can use this if the user has made changes to the file system but
+# wants to start over.
 
 rm -rf $TASK_DIR
 

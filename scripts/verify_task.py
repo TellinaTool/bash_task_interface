@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 
 """
+Determine whether the user's command has solved the task.
+
+The first two inputs are the current task number and the time elapsed
+since starting the task.  The remaining inputs are the user's command.
+
 There are three exit codes returned from this script.
-
-If the user has passed the task, returns 1.
-If the user has not passed the task and has run out of time for the current
-task, returns 2.
-
-If the user does not pass the task, returns 0.
+ * If the user has passed the task, returns 1.
+ * If the user has not passed the task and has run out of time for the current
+   task, returns 2.
+ * If the user does not pass the task but has time remaining, returns 0.
 """
 
 from __future__ import print_function
@@ -17,6 +20,8 @@ import subprocess
 import filecmp
 import tarfile
 
+# There are two types of tasks: those that expect output, and
+# those that expect a modification to the file system.
 FILESYSTEM_TASKS = {2, 3, 4, 5, 6, 11, 12, 15, 17, 20, 22}
 # Task time limit in minutes.
 TASK_TIME_LIMIT = 5.0
@@ -85,6 +90,9 @@ def task_has_time_left(seconds):
 
 
 def normalize_output(output_path, norm_out_path, task_num, filesystem):
+    """Reads file output_path, normalizes its contents, and writes the result
+to file norm_out_path.
+    """
     norm_out = open(norm_out_path, 'w')
     if filesystem:
         print('# Showing diff of task filesystem.', file=norm_out)
@@ -103,6 +111,7 @@ def normalize_output(output_path, norm_out_path, task_num, filesystem):
 
 
 def verify(norm_out_path, task_num, filesystem_verify):
+    """Returns 0 if verification succeeded, non-zero if it failed."""
     if filesystem_verify:
         task_verify_path = os.environ['REPO_DIR'] + '/verify_out/fs_status/task' + str(task_num) + '.fs.out'
     else:
@@ -135,6 +144,7 @@ def verify(norm_out_path, task_num, filesystem_verify):
 
 
 def to_next_task(task_num):
+    """Increments the contents of file curr_task."""
     curr_task_path = os.environ['REPO_DIR'] + '/task_progress/curr_task'
     with open(curr_task_path, 'w') as curr_task:
         print(int(task_num) + 1, end='', file=curr_task)

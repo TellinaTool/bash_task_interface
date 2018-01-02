@@ -1,4 +1,4 @@
 echo "reset: Reset the task directory to its original state"
 echo "abandon: Give up on the current task. You will be moved to the next task."
-echo "diff: Open up a graphical diff of your last attempt to solve the task and the correct output."
+echo "diff: Compare your last attempt to the correct output."
 echo "helpme: Print this list of commands."

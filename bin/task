@@ -5,5 +5,5 @@ TASK_NUM=`cat $CURR_TASK`
 if [[ `pwd` == "$TASK_DIR"* ]]; then
     $REPO_DIR/scripts/get_task_description.py "$REPO_DIR/tasks/task$TASK_NUM.json" "$TASK_NUM."
 else
-    echo "You are not in the task directory. Please go to $HOME/task or reset."
+    echo "You are not in the task directory. Please run `cd $HOME/task` or `reset`."
 fi

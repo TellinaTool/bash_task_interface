@@ -7,7 +7,8 @@ export TASK_DIR="$HOME/task"
 export CURR_TASK="$REPO_DIR/task_progress/curr_task"
 # log file
 export LOGFILE="$REPO_DIR/log"
-# if nonzero, the shell outputs the diff and task number after each command
+# If nonzero, the shell runs `task` after each command
+# (`task` outputs the diff and task number).
 export DIFF_MODE=1
 # format for timestamps in the bash history
 export HISTTIMEFORMAT="%m/%d/%y %T "
@@ -21,26 +22,26 @@ alias reset="cd $HOME && reset && cd $TASK_DIR"
 alias toggle="source toggle-diff-mode"
 alias abandon="source abandon-task"
 
-# Installing Bash preexec.
+# Install Bash preexec.
 curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh
 source ~/.bash-preexec.sh
 preexec() {
     # TODO this needs to be disabled for commands like vi since it hangs
-    # Store the last command issued by the user into a file.
+    # Store the last head command issued by the user into a file.
     echo $1 > $REPO_DIR/user_output/prev_cmd
 }
 
 precmd() {
     # The previous command issued by the user.
     PREV_CMD=`cat $REPO_DIR/user_output/prev_cmd`
-    # if the previous command was not a diff command, reset command, or a task command
+    # Don't do anything if the previous head command was diff, reset, or task.
     if [ "$PREV_CMD" != "diff" ] && [ "$PREV_CMD" != "reset" ] && [ "$PREV_CMD" != "task" ]; then
         TASK_NUM=`cat $CURR_TASK`
         # Verify the output of the previous command.
         $REPO_DIR/scripts/verify_task.py $TASK_NUM $SECONDS $PREV_CMD 
         EXIT=$?
-        # if the user passes the task
         if [ "$EXIT" = 1 ]; then
+            # The user passed the task.
             abandon
             echo "-----------------------"
             echo "You have passed task $TASK_NUM!"
@@ -54,8 +55,8 @@ precmd() {
                 echo "If you were previously using Tellina to complete the tasks, please stop using Tellina for the remaining tasks."
                 echo "If you have not been using Tellina to complete the tasks, please open Tellina in your web browser <INSERT LINK>."
             fi
-        # else, if the user has gone over time for this task
         elif [ "$EXIT" = 2 ]; then
+	    # The user exceeded the time limit for this task.
             abandon
             echo "-----------------------------------"
             echo "You have run out of time on task $TASK_NUM."

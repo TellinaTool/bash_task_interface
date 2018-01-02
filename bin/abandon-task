@@ -1,8 +1,8 @@
-# This script "abandons" the current task.
-# Specifically, it increments the task num stored in the file at CURR_TASK,
-# resets the task directory, and reset the SECONDS variable to 0.
+# A user runs this script to give up on the current task.
 # This can be used as a general script to increment the task properly.
 
+# Increments the task number.
 echo -n "$((`cat $CURR_TASK` + 1))" > $CURR_TASK
+# Reset the task directory.
 reset
 export SECONDS=0
